@@ -26,7 +26,7 @@ public class F1BookingResource {
     public Response makeBooking(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
                                 @PathParam("seat") String seat,
                                 @PathParam("cardNumber") String cardNumber) {
-        LOG.info("Payment " + cardNumber);
+        LOG.info("💳 Payment " + cardNumber);
         // Notice that we don't need to propagate LRA header
         // When using JAX-RS client, LRA header is propagated automatically
         ClientBuilder.newClient()
@@ -44,7 +44,7 @@ public class F1BookingResource {
                         res.close();
                     }
                 });
-
+        LOG.info("🪑 Seat " + cardNumber);
         ClientBuilder.newClient()
                 .target("http://f1-payment-service:7002")
                 .path("/payment/confirm/"+cardNumber)
@@ -65,7 +65,7 @@ public class F1BookingResource {
 
     @AfterLRA
     public void onLRAEnd(URI lraId, LRAStatus status) {
-        LOG.info("Payment " + status + " " + lraId);
+        LOG.info("Completed " + status + " " + lraId);
     }
 
 }

@@ -31,7 +31,7 @@ public class PaymentResource {
     public Response makePayment(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
                                 @PathParam("cardNumber") String cardNumber) {
         if (cardNumber.equals("0000-0000-0000")) {
-            LOG.warning("Payment " + cardNumber);
+            LOG.warning("⛔️ Payment " + cardNumber);
             throw new IllegalStateException("Card " + cardNumber + " is not valid! " + lraId);
         }
         LOG.info("Payment " + cardNumber + " " + lraId);

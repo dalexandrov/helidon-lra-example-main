@@ -31,10 +31,10 @@ public class F1SeatBookingResource {
     public Response createBooking(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
                                   @PathParam("seat") String seat) {
         if (!seat.equals("1f")) {
-            LOG.info("Creating booking for " + seat);
+            LOG.info("✅ Created booking for " + seat);
             return Response.ok().build();
         } else {
-            LOG.info("Seat " + seat + " already booked!");
+            LOG.info("🚫 Seat " + seat + " already booked!");
             return Response
                     .status(Response.Status.CONFLICT)
                     .entity(JSON.createObjectBuilder()
@@ -47,14 +47,14 @@ public class F1SeatBookingResource {
 
     @Compensate
     public Response seatBookingFailed(URI lraId) {
-        LOG.info("Seat booking failed! " + lraId);
+        LOG.info("🔥 Seat booking failed! " + lraId);
         // If the participant status is not confirmed as completed, coordinator retries the call eventually
         return Response.ok(ParticipantStatus.Completed.name()).build();
     }
 
     @Complete
     public Response seatBookingSuccessful(URI lraId) {
-        LOG.info("Seat booking success! " + lraId);
+        LOG.info("😀 Seat booking success! " + lraId);
         return Response.ok(ParticipantStatus.Completed.name()).build();
     }
 
